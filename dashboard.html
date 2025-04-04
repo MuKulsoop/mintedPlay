@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+        :root {
+            --neon-green: #c6ff00;
+            --neon-blue: #7bbfea;
+            --dark-bg: #0e0e16;
+            --card-bg: #1a1a2e;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .neon-text {
+            color: var(--neon-green);
+            text-shadow: 0 0 5px rgba(198, 255, 0, 0.5);
+        }
+        
+        .neon-blue-text {
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px rgba(123, 191, 234, 0.5);
+        }
+        
+        .dashboard-card {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px rgba(198, 255, 0, 0.1);
+        }
+        
+        .btn-neon {
+            background-color: var(--neon-green);
+            color: #000;
+            font-weight: bold;
+            border-radius: 0.25rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(198, 255, 0, 0.3);
+        }
+        
+        .btn-neon:hover {
+            box-shadow: 0 0 15px rgba(198, 255, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .badge-level {
+            background-color: #440bd4;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 5px rgba(123, 191, 234, 0.5);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            border-radius: 4px;
+        }
+        
+        .nav-item.active {
+            border-bottom: 2px solid var(--neon-green);
+        }
+        
+        .blog-card {
+            border-left: 3px solid var(--neon-green);
+        }
+        
+        .spider-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            z-index: 10;
+            opacity: 0.8;
+        }
+        
+        /* Animation for spider */
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+        
+        .spider-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <nav class="bg-black bg-opacity-70 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <div class="text-3xl font-bold neon-text mr-10">X</div>
+            <ul class="flex space-x-6">
+                <li class="nav-item"><a href="#" class="text-gray-300 hover:text-white">HOME</a></li>
+                <li class="nav-item"><a href="#" class="text-gray-300 hover:text-white">ABOUT US</a></li>
+                <li class="nav-item active"><a href="#" class="text-white">DASHBOARD</a></li>
+                <li class="nav-item"><a href="#" class="text-gray-300 hover:text-white">TOURNAMENT</a></li>
+                <li class="nav-item"><a href="#" class="text-gray-300 hover:text-white">PAGES</a></li>
+                <li class="nav-item"><a href="#" class="text-gray-300 hover:text-white">CONTACT US</a></li>
+            </ul>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+            <button class="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+            </button>
+            <div class="bg-gradient-to-r from-green-400 to-blue-500 p-0.5 rounded-lg">
+                <button class="px-4 py-2 bg-black text-white rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    CONNECT
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-4xl font-bold">PLAYER DASHBOARD</h1>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center bg-gray-800 rounded-full p-1 pl-3">
+                    <span class="text-gray-300 mr-2">NeonSlayer92</span>
+                    <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center">
+                        <span class="text-xs font-bold">XP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Stats Card 1 -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold">Gaming Score</h3>
+                    <span class="badge-level px-3 py-1 rounded-full text-xs">Level 32</span>
+                </div>
+                <div class="flex items-end space-x-2">
+                    <div class="text-5xl font-bold neon-text">8,724</div>
+                    <div class="text-green-500 text-xl">+14%</div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Current XP</span>
+                        <span>15,000 / 20,000</span>
+                    </div>
+                    <div class="bg-gray-700 w-full h-2 rounded-full">
+                        <div class="progress-bar" style="width: 75%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Card 2 -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold">Total Matches</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                </div>
+                <div class="flex items-end space-x-2">
+                    <div class="text-5xl font-bold neon-blue-text">483</div>
+                    <div class="text-blue-500 text-sm">Last match: 2h ago</div>
+                </div>
+                <div class="mt-4 flex justify-between text-sm">
+                    <div>
+                        <div class="text-gray-400">Wins</div>
+                        <div class="text-2xl font-semibold text-green-500">312</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-400">Losses</div>
+                        <div class="text-2xl font-semibold text-red-500">171</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-400">Win Rate</div>
+                        <div class="text-2xl font-semibold neon-text">64.6%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Card 3 -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold">Activity</h3>
+                    <div class="text-xs text-gray-400">Weekly</div>
+                </div>
+                <canvas id="activityChart" width="100%" height="150"></canvas>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Performance Chart -->
+            <div class="dashboard-card p-6 col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold">Performance Metrics</h3>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 text-xs bg-gray-800 hover:bg-gray-700 rounded-md">Day</button>
+                        <button class="px-3 py-1 text-xs bg-gray-700 rounded-md neon-text">Week</button>
+                        <button class="px-3 py-1 text-xs bg-gray-800 hover:bg-gray-700 rounded-md">Month</button>
+                    </div>
+                </div>
+                <canvas id="performanceChart" width="100%" height="250"></canvas>
+            </div>
+
+            <!-- Recent Achievements -->
+            <div class="dashboard-card p-6">
+                <h3 class="text-xl font-semibold mb-4">Recent Achievements</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center p-3 bg-gray-800 bg-opacity-50 rounded-lg">
+                        <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">First Blood Master</div>
+                            <div class="text-xs text-gray-400">Earned 2 days ago</div>
+                        </div>
+                        <div class="ml-auto neon-text font-bold">+120 XP</div>
+                    </div>
+                    
+                    <div class="flex items-center p-3 bg-gray-800 bg-opacity-50 rounded-lg">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">Unstoppable</div>
+                            <div class="text-xs text-gray-400">Earned 3 days ago</div>
+                        </div>
+                        <div class="ml-auto neon-text font-bold">+350 XP</div>
+                    </div>
+                    
+                    <div class="flex items-center p-3 bg-gray-800 bg-opacity-50 rounded-lg">
+                        <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium">Win Streak</div>
+                            <div class="text-xs text-gray-400">Earned 1 week ago</div>
+                        </div>
+                        <div class="ml-auto neon-text font-bold">+200 XP</div>
+                    </div>
+                </div>
+                <button class="w-full mt-4 text-sm py-2 text-center text-gray-400 hover:text-white">View All Achievements</button>
+            </div>
+        </div>
+
+        <!-- Blog Posts -->
+        <div class="mt-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Your Blog Posts</h2>
+                <button class="btn-neon px-4 py-2">+ Create New Post</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="dashboard-card p-6 blog-card">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="badge-level px-3 py-1 rounded-full text-xs">Gaming Tips</div>
+                        <div class="text-xs text-gray-400">Published 2 days ago</div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">How I Improved My K/D Ratio in Under a Week</h3>
+                    <p class="text-gray-400 text-sm mb-4">Learning these simple tricks helped me boost my performance significantly. Here's what I did differently...</p>
+                    <div class="flex justify-between items-center text-xs text-gray-400">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            1,245 views
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
+                            38 comments
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            124 likes
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card p-6 blog-card">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="badge-level px-3 py-1 rounded-full text-xs">Tournament</div>
+                        <div class="text-xs text-gray-400">Published 1 week ago</div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">My Experience at the Regional Championship</h3>
+                    <p class="text-gray-400 text-sm mb-4">From qualifying rounds to the final match, here's my journey through this year's most intense gaming event...</p>
+                    <div class="flex justify-between items-center text-xs text-gray-400">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            2,789 views
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
+                            65 comments
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            217 likes
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mt-6">
+                <button class="px-6 py-2 text-sm text-center text-gray-400 hover:text-white hover:underline">View All Blog Posts</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Tournaments Section -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Upcoming Tournaments</h2>
+            <button class="text-sm text-gray-400 hover:text-white">View All</button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="dashboard-card overflow-hidden">
+                <div class="h-40 bg-purple-900 relative">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <div class="text-xs text-gray-300">Apr 15, 2025</div>
+                        <div class="text-xl font-bold">Spring Championship</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="badge-level px-3 py-1 rounded-full text-xs">Team Battle</div>
+                        <div class="text-xs text-gray-400">32 Teams</div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-400">Prize Pool:</div>
+                        <div class="text-lg font-bold neon-text">$5,000</div>
+                    </div>
+                    <button class="btn-neon w-full py-2 mt-4 text-center">Register Now</button>
+                </div>
+            </div>
+            
+            <div class="dashboard-card overflow-hidden">
+                <div class="h-40 bg-blue-900 relative">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <div class="text-xs text-gray-300">May 2, 2025</div>
+                        <div class="text-xl font-bold">Solo Challenge Cup</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="badge-level px-3 py-1 rounded-full text-xs">Solo</div>
+                        <div class="text-xs text-gray-400">128 Players</div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-400">Prize Pool:</div>
+                        <div class="text-lg font-bold neon-text">$2,500</div>
+                    </div>
+                    <button class="btn-neon w-full py-2 mt-4 text-center">Register Now</button>
+                </div>
+            </div>
+            
+            <div class="dashboard-card overflow-hidden">
+                <div class="h-40 bg-green-900 relative">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <div class="text-xs text-gray-300">May 20, 2025</div>
+                        <div class="text-xl font-bold">Pro League Qualifier</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="badge-level px-3 py-1 rounded-full text-xs">Team Battle</div>
+                        <div class="text-xs text-gray-400">16 Teams</div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-400">Prize Pool:</div>
+                        <div class="text-lg font-bold neon-text">$7,500</div>
+                    </div>
+                    <button class="btn-neon w-full py-2 mt-4 text-center">Register Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-12 bg-black bg-opacity-80 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold neon-text">X</div>
+                <div class="text-sm text-gray-400">© 2025 Game Portal. All rights reserved.</div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3
