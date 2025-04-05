@@ -339,36 +339,55 @@
     
     <!-- main js  -->
     <script src="assets/js/main.js"></script>
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-          e.preventDefault(); // Prevent default form submission
-        
-          const email = this.email.value.trim();
-          const password = this.password.value;
-        
-          try {
-            const res = await fetch('http://localhost:8000/login', { // change URL to match your backend
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, password })
-            });
-        
-            const data = await res.json();
-        
-            if (res.ok) {
-              // Save token (if returned) and redirect
-              localStorage.setItem('token', data.token); // assuming token is returned
-              alert('Login successful!');
-              window.location.href = 'dashboard.html'; // change to your actual dashboard page
-            } else {
-              alert(data.message || 'Login failed');
-            }
-          } catch (err) {
-            console.error(err);
-            alert('Something went wrong. Please try again.');
-          }
-        });
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    const email = this.email.value.trim();
+    const password = this.password.value;
+
+    try {
+      // Check if MetaMask is installed
+      if (!window.ethereum) {
+        alert("MetaMask not detected. Please install it to continue.");
+        return;
+      }
+
+      // Connect wallet using ethers.js
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const walletAddress = await signer.getAddress();
+
+      // Save wallet address to localStorage
+      localStorage.setItem('walletAddress', walletAddress);
+
+      // Now send login request
+      const res = await fetch('http://localhost:8000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, walletAddress })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Save token (if returned) and redirect
+        localStorage.setItem('token', data.token); // assuming token is returned
+        alert('Login successful!');
+        window.location.href = 'dashboard.html'; // change to your actual dashboard page
+      } else {
+        alert(data.message || 'Login failed');
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong. Please try again.');
+    }
+  });
+</script>
+
     
 </body>
 </html>
