@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Future of UI Design: Neon Interfaces | Neon Pulse Blog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --neon-yellow: #f5f749;
+      --neon-yellow-glow: rgba(245, 247, 73, 0.7);
+      --dark-bg: #0a0a0a;
+      --darker-bg: #050505;
+      --card-bg: rgba(15, 15, 15, 0.8);
+      --text-color: #e0e0e0;
+      --accent-neon: #00f7ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(245, 247, 73, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(0, 247, 255, 0.05) 0%, transparent 25%),
+        linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
+    }
+
+    /* Header Styles */
+    header {
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(245, 247, 73, 0.1);
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, var(--neon-yellow-glow) 0%, transparent 70%);
+      opacity: 0.1;
+      z-index: 1;
+      animation: pulse-bg 8s infinite alternate;
+    }
+
+    @keyframes pulse-bg {
+      0% { opacity: 0.05; transform: scale(1); }
+      100% { opacity: 0.15; transform: scale(1.1); }
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--neon-yellow), var(--accent-neon));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px var(--neon-yellow-glow);
+      animation: text-flicker 3s infinite alternate;
+    }
+
+    @keyframes text-flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 
+          0 0 10px var(--neon-yellow-glow),
+          0 0 20px rgba(0, 247, 255, 0.5);
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--neon-yellow);
+      opacity: 0;
+      animation: fade-in 1.5s ease-out 0.5s forwards;
+    }
+
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slide-up 0.8s ease-out 0.8s forwards;
+    }
+
+    @keyframes slide-up {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--neon-yellow);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--neon-yellow);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+    }
+
+    .nav-link.active {
+      color: var(--neon-yellow);
+    }
+
+    .nav-link.active::before {
+      width: 100%;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    /* Article Header */
+    .article-header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .article-category {
+      display: inline-block;
+      background: var(--neon-yellow);
+      color: #000;
+      padding: 0.4rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+      color: #fff;
+      background: linear-gradient(90deg, var(--neon-yellow), var(--accent-neon));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      color: #888;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .featured-image {
+      width: 100%;
+      height: 400px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(245, 247, 73, 0.2);
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .featured-image::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(245, 247, 73, 0.1) 0%, transparent 50%);
+    }
+
+    /* Article Content */
+    .article-content {
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      color: #d0d0d0;
+    }
+
+    .article-content h2 {
+      font-size: 1.8rem;
+      margin: 3rem 0 1.5rem;
+      color: var(--neon-yellow);
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .article-content h2::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.3em;
+      height: 1em;
+      width: 5px;
+      background: var(--neon-yellow);
+      box-shadow: 0 0 10px var(--neon-yellow-glow);
+    }
+
+    .article-content h3 {
+      font-size: 1.4rem;
+      margin: 2.5rem 0 1rem;
+      color: var(--accent-neon);
+    }
+
+    .article-content blockquote {
+      border-left: 3px solid var(--neon-yellow);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #b0b0b0;
+      box-shadow: inset 0 0 10px rgba(245, 247, 73, 0.1);
+    }
+
+    .article-content a {
+      color: var(--accent-neon);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .article-content a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-neon);
+      transition: width 0.3s ease;
+    }
+
+    .article-content a:hover {
+      color: var(--neon-yellow);
+    }
+
+    .article-content a:hover::after {
+      width: 100%;
+    }
+
+    .article-content ul, 
+    .article-content ol {
+      margin: 1.5rem 0;
+      padding-left: 2rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      color: #d0d0d0;
+    }
+
+    .article-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 2rem 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(245, 247, 73, 0.1);
+    }
+
+    .code-block {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(245, 247, 73, 0.1);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    .code-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 247, 255, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      border-radius: 8px;
+    }
+
+    .code-block code {
+      color: var(--neon-yellow);
+      display: block;
+    }
+
+    /* Tags */
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 3rem 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: rgba(245, 247, 73, 0.1);
+      color: var(--neon-yellow);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(245, 247, 73, 0.2);
+    }
+
+    .tag:hover {
+      background: rgba(245, 247, 73, 0.2);
+      box-shadow: 0 0 10px var(--neon-yellow-glow);
+    }
+
+    /* Author Bio */
+    .author-bio {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      margin: 4rem 0;
+      border: 1px solid rgba(245, 247, 73, 0.1);
+    }
+
+    .author-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--neon-yellow);
+      box-shadow: 0 0 15px var(--neon-yellow-glow);
+    }
+
+    .author-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .author-info h4 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--neon-yellow);
+    }
+
+    .author-info p {
+      color: #b0b0b0;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .author-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .author-social a {
+      color: var(--text-color);
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .author-social a:hover {
+      color: var(--neon-yellow);
+      transform: translateY(-2px);
+    }
+
+    /* Related Articles */
+    .related-articles {
+      margin: 5rem 0 3rem;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: var(--neon-yellow);
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50%;
+      height: 2px;
+      background: var(--neon-yellow);
+      box-shadow: 0 0 10px var(--neon-yellow-glow);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .related-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(245, 247, 73, 0.1);
+    }
+
+    .related-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4),
+                  0 0 15px var(--neon-yellow-glow);
+    }
+
+    .related-image {
+      height: 160px;
+      overflow: hidden;
+    }
+
+    .related-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .related-card:hover .related-image img {
+      transform: scale(1.05);
+    }
+
+    .related-content {
+      padding: 1.5rem;
+    }
+
+    .related-category {
+      display: inline-block;
+      font-size: 0.7rem;
+      color: #000;
+      background: var(--neon-yellow);
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .related-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .related-excerpt {
+      font-size: 0.9rem;
+      color: #b0b0b0;
+      margin-bottom: 1rem;
+    }
+
+    .related-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* Comments Section */
+    .comments-section {
+      margin: 5rem 0;
+    }
+
+    .comment-form {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      margin-bottom: 3rem;
+      border: 1px solid rgba(245, 247, 73, 0.1);
+    }
+
+    .comment-form h3 {
+      margin-bottom: 1.5rem;
+      color: var(--neon-yellow);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #b0b0b0;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(245, 247, 73, 0.2);
+      border-radius: 5px;
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--neon-yellow);
+      box-shadow: 0 0 10px var(--neon-yellow-glow);
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: var(--neon-yellow);
+      color: #000;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .submit-btn:hover {
+      background: #fff;
+      box-shadow: 0 0 15px var(--neon-yellow-glow);
+    }
+
+    .comment-list {
+      margin-top: 3rem;
+    }
+
+    .comment {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(245, 247, 73, 0.1);
+    }
+
+    .comment-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .comment-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 1rem;
+      border: 1px solid rgba(245, 247, 73, 0.3);
+    }
+
+    .comment-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .comment-author {
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .comment-date {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 0.2rem;
+    }
+
+    .comment-body {
+      color: #d0d0d0;
+      line-height: 1.6;
+    }
+
+    .reply-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent-neon);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .reply-btn:hover {
+      color: var(--neon-yellow);
+      text-shadow: 0 0 5px var(--neon-yellow-glow);
+    }
+
+    /* Neon Pulse Effect */
+    .neon-pulse {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .pulse-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--neon-yellow-glow) 0%, transparent 70%);
+      animation: pulse 15s infinite alternate;
+      opacity: 0.05;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.03; }
+      100% { transform: scale(1.5); opacity: 0.08; }
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 5rem;
+      border-top: 1px solid rgba(245, 247, 73, 0.1);
+      position: relative;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--neon-yellow), var(--accent-neon));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--neon-yellow);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .social-link {
+      color: var(--text-color);
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      color: var(--neon-yellow);
+      transform: translateY(-3px);
+      text-shadow: 0 0 10px var(--neon-yellow-glow);
+    }
+
+    .copyright {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: rgba(245, 247, 73, 0.2);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 100;
+      border: 1px solid var(--neon-yellow);
+    }
+
+    .scroll-indicator.visible {
+      opacity: 1;
+    }
+
+    .scroll-indicator:hover {
+      background: rgba(245, 247, 73, 0.3);
+      box-shadow: 0 0 15px var(--neon-yellow-glow);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      h1 {
+        font-size: 2.8rem;
+      }
+
+      .article-title {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      .article-title {
+        font-size: 1.8rem;
+      }
+
+      .featured-image {
+        height: 300px;
+      }
+
+      .author-bio {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .author-avatar {
+        margin-bottom: 1.5rem;
+      }
+
+      .author-social {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      header {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .article-title {
+        font-size: 1.5rem;
+      }
+
+      .article-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .featured-image {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Neon Pulse Background Elements -->
+  <div class="neon-pulse">
+    <div class="pulse-circle" style="width: 600px; height: 600px; top: -200px; left: -200px; animation-delay: 0s;"></div>
+    <div class="pulse-circle" style="width: 800px; height: 800px; bottom: -300px; right: -200px; animation-delay: 3s;"></div>
+    <div class="pulse-circle" style="width: 400px; height: 400px; top: 30%; right: -100px; animation-delay: 6s;"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-bg"></div>
+    <div class="header-content">
+      <h1>Minty Play Blog</h1>
+      <p class="tagline">Illuminating Ideas in a Digital World</p>
+      <nav>
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Tech</a>
+        <a href="#" class="nav-link">Design</a>
+        <a href="#" class="nav-link">Culture</a>
+        <a href="#" class="nav-link active">Articles</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Article Header -->
+    <header class="article-header">
+      <span class="article-category">Featured</span>
+      <h1 class="article-title">Cyberpunk 2077: Phantom Liberty - The Redemption Arc</h1>
+      <div class="article-meta">
+        <span><i class="far fa-user"></i> By Sarah Chen</span>
+        <span><i class="far fa-calendar"></i> June 12, 2023</span>
+        <span><i class="far fa-clock"></i> 12 min read</span>
+      </div>
+    </header>
+
+    <!-- Featured Image -->
+    <div class="featured-image">
+      <img src="image/card7.webp" alt="Neon UI Design">
+    </div>
+
+    <!-- Article Content -->
+    <!-- Add this after the Related Articles section in your main content -->
+
+<!-- Gaming Content Section -->
+<section class="gaming-section">
+    <h3 class="section-title">Minty Gaming Spotlight</h3>
+    
+    <!-- Featured Game Review -->
+    <article class="game-review">
+      <div class="review-header">
+        <span class="review-score">9.2/10 <i class="fas fa-star"></i></span>
+        <h4>Minty Drift: Cyber Streets</h4>
+        <div class="review-meta">
+          <span><i class="fas fa-gamepad"></i> PS5, Xbox Series X, PC</span>
+          <span><i class="fas fa-calendar-alt"></i> Released: July 15, 2023</span>
+        </div>
+      </div>
+      
+      <div class="review-content">
+        <div class="game-trailer">
+            <iframe width="100%" height="400" src="https://www.youtube.com/embed/_tTA86NYxJA?si=mKjeMs9cJH7LcKgM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <div class="image-caption">Official gameplay trailer</div>
+        </div>
+        
+        <div class="review-text">
+          <p>Minty Drift: Cyber Streets delivers an electrifying racing experience that perfectly captures the cyberpunk aesthetic. The game's neon-drenched cityscapes are a visual masterpiece, with rain-slicked streets reflecting vibrant holographic advertisements and dynamic lighting that reacts to your vehicle's movements.</p>
+          
+          <p>The <strong>custom light system</strong> allows players to modify their vehicle's neon underglow, headlights, and even exhaust trails, creating a personalized light show as you race through the futuristic city.</p>
+          
+          <h5>Key Features:</h5>
+          <ul class="neon-list">
+            <li><i class="fas fa-bolt neon-icon"></i> Fully customizable vehicle lighting</li>
+            <li><i class="fas fa-bolt neon-icon"></i> Dynamic weather affecting light reflections</li>
+            <li><i class="fas fa-bolt neon-icon"></i> Photo mode with advanced light painting tools</li>
+            <li><i class="fas fa-bolt neon-icon"></i> Online multiplayer with synchronized light shows</li>
+          </ul>
+          
+          <div class="pros-cons">
+            <div class="pros">
+              <h5>Pros</h5>
+              <ul>
+                <li>Breathtaking neon visuals</li>
+                <li>Innovative lighting customization</li>
+                <li>Pulse-pounding synthwave soundtrack</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <h5>Cons</h5>
+              <ul>
+                <li>Steep learning curve for beginners</li>
+                <li>Some performance issues on base consoles</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+    <!-- Upcoming Neon Games -->
+    <div class="upcoming-games">
+      <h4>Upcoming Minty-Themed Games</h4>
+      <div class="game-cards">
+        <!-- Game 1 -->
+        <div class="game-card">
+          <div class="game-poster" style="background-image: url('https://source.unsplash.com/random/300x450/?cyberpunk,game')">
+            <div class="release-date">Aug 28, 2023</div>
+          </div>
+          <div class="game-info">
+            <h5>Hologram Horizon</h5>
+            <p class="game-genre">Open World | RPG</p>
+            <p class="game-platforms"><i class="fas fa-tv"></i> All platforms</p>
+            <button class="wishlist-btn"><i class="far fa-bookmark"></i> Wishlist</button>
+          </div>
+        </div>
+        
+        <!-- Game 2 -->
+        <div class="game-card">
+          <div class="game-poster" style="background-image: url('https://source.unsplash.com/random/300x450/?neon,vr')">
+            <div class="release-date">Sep 15, 2023</div>
+          </div>
+          <div class="game-info">
+            <h5>Neon Nexus VR</h5>
+            <p class="game-genre">FPS | VR</p>
+            <p class="game-platforms"><i class="fas fa-vr-cardboard"></i> PC VR</p>
+            <button class="wishlist-btn"><i class="far fa-bookmark"></i> Wishlist</button>
+          </div>
+        </div>
+        
+        <!-- Game 3 -->
+        <div class="game-card">
+          <div class="game-poster" style="background-image: url('https://source.unsplash.com/random/300x450/?retro,arcade')">
+            <div class="release-date">Oct 3, 2023</div>
+          </div>
+          <div class="game-info">
+            <h5>Retro Glow</h5>
+            <p class="game-genre">Arcade | Puzzle</p>
+            <p class="game-platforms"><i class="fas fa-mobile-alt"></i> iOS & Android</p>
+            <button class="wishlist-btn"><i class="far fa-bookmark"></i> Wishlist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Add this CSS to your style section -->
+  <style>
+    /* Gaming Section Styles */
+    .gaming-section {
+      margin: 5rem 0;
+      padding: 2rem;
+      background: rgba(15, 15, 15, 0.6);
+      border-radius: 10px;
+      border: 1px solid rgba(0, 247, 255, 0.2);
+      box-shadow: 0 0 20px rgba(0, 247, 255, 0.1);
+    }
+    
+    .game-review {
+      margin-bottom: 3rem;
+    }
+    
+    .review-header {
+      position: relative;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(245, 247, 73, 0.3);
+    }
+    
+    .review-header h4 {
+      font-size: 1.8rem;
+      color: var(--accent-neon);
+      margin: 0.5rem 0;
+      text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+    }
+    
+    .review-score {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--neon-yellow);
+      color: #000;
+      padding: 0.3rem 1rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 0 10px var(--neon-yellow-glow);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .review-meta {
+      display: flex;
+      gap: 1.5rem;
+      color: #888;
+      font-size: 0.9rem;
+    }
+    
+    .game-trailer {
+      position: relative;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 247, 255, 0.3);
+    }
+    
+    .game-trailer iframe {
+      width: 100%;
+      border: none;
+    }
+    
+    .image-caption {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+    
+    .neon-list {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+    
+    .neon-list li {
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .neon-icon {
+      color: var(--accent-neon);
+      margin-right: 0.8rem;
+      text-shadow: 0 0 5px var(--neon-yellow-glow);
+    }
+    
+    .pros-cons {
+      display: flex;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .pros, .cons {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    
+    .pros {
+      background: rgba(0, 255, 100, 0.1);
+      border: 1px solid rgba(0, 255, 100, 0.2);
+    }
+    
+    .cons {
+      background: rgba(255, 50, 50, 0.1);
+      border: 1px solid rgba(255, 50, 50, 0.2);
+    }
+    
+    .pros h5, .cons h5 {
+      margin-bottom: 0.8rem;
+      color: var(--text-color);
+    }
+    
+    .pros ul, .cons ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .pros li:before {
+      content: '+';
+      color: #0f0;
+      margin-right: 0.5rem;
+      text-shadow: 0 0 5px #0f0;
+    }
+    
+    .cons li:before {
+      content: '-';
+      color: #f00;
+      margin-right: 0.5rem;
+      text-shadow: 0 0 5px #f00;
+    }
+    
+    .upcoming-games h4 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--neon-yellow);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(245, 247, 73, 0.3);
+    }
+    
+    .game-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .game-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(245, 247, 73, 0.1);
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 247, 255, 0.2);
+    }
+    
+    .game-poster {
+      height: 250px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    
+    .release-date {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: var(--neon-yellow);
+    }
+    
+    .game-info {
+      padding: 1rem;
+    }
+    
+    .game-info h5 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .game-genre {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .game-platforms {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 1rem;
+    }
+    
+    .wishlist-btn {
+      background: transparent;
+      border: 1px solid var(--accent-neon);
+      color: var(--accent-neon);
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .wishlist-btn:hover {
+      background: rgba(0, 247, 255, 0.1);
+      box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .pros-cons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .game-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>

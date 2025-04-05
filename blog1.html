@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon Pulse Gaming</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --neon-yellow: #f5f749;
+      --neon-yellow-glow: rgba(245, 247, 73, 0.7);
+      --dark-bg: #0a0a0a;
+      --darker-bg: #050505;
+      --card-bg: rgba(15, 15, 15, 0.8);
+      --text-color: #e0e0e0;
+      --accent-neon: #00f7ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(245, 247, 73, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(0, 247, 255, 0.05) 0%, transparent 25%),
+        linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
+    }
+
+    /* Header Styles */
+    header {
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, var(--neon-yellow-glow) 0%, transparent 70%);
+      opacity: 0.1;
+      z-index: 1;
+      animation: pulse-bg 8s infinite alternate;
+    }
+
+    @keyframes pulse-bg {
+      0% { opacity: 0.05; transform: scale(1); }
+      100% { opacity: 0.15; transform: scale(1.1); }
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--neon-yellow), var(--accent-neon));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px var(--neon-yellow-glow);
+      animation: text-flicker 3s infinite alternate;
+    }
+
+    @keyframes text-flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 
+          0 0 10px var(--neon-yellow-glow),
+          0 0 20px rgba(0, 247, 255, 0.5);
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--neon-yellow);
+      opacity: 0;
+      animation: fade-in 1.5s ease-out 0.5s forwards;
+    }
+
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slide-up 0.8s ease-out 0.8s forwards;
+    }
+
+    @keyframes slide-up {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--neon-yellow);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--neon-yellow);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+    }
+
+    .nav-link.active {
+      color: var(--neon-yellow);
+    }
+
+    .nav-link.active::before {
+      width: 100%;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    /* Blog Grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    /* Blog Card */
+    .blog-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(50px);
+      opacity: 0;
+      animation: card-enter 0.8s ease-out forwards;
+      animation-delay: calc(var(--delay) * 0.1s);
+      position: relative;
+      border: 1px solid rgba(245, 247, 73, 0.1);
+    }
+
+    @keyframes card-enter {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .blog-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(245, 247, 73, 0.1) 0%, transparent 50%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-10px) !important;
+      box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.4),
+        0 0 20px var(--neon-yellow-glow);
+      border-color: rgba(245, 247, 73, 0.3);
+    }
+
+    .card-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .blog-card:hover .card-image img {
+      transform: scale(1.05);
+    }
+
+    .card-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
+    }
+
+    .card-content {
+      padding: 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-category {
+      display: inline-block;
+      background: var(--neon-yellow);
+      color: #000;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+
+    .blog-card:hover .card-title {
+      color: var(--neon-yellow);
+    }
+
+    .card-excerpt {
+      color: #b0b0b0;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .card-date {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-read-time {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Featured Post */
+    .featured-post {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(245, 247, 73, 0.1);
+      transform: translateY(50px);
+      opacity: 0;
+      animation: card-enter 0.8s ease-out 0.3s forwards;
+    }
+
+    .featured-post:hover {
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 30px var(--neon-yellow-glow);
+      border-color: rgba(245, 247, 73, 0.3);
+    }
+
+    .featured-image {
+      height: 100%;
+      min-height: 300px;
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .featured-content {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .featured-category {
+      background: var(--neon-yellow);
+      color: #000;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .featured-title {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .featured-excerpt {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #b0b0b0;
+      margin-bottom: 2rem;
+    }
+
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--neon-yellow);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: fit-content;
+    }
+
+    .read-more:hover {
+      gap: 1rem;
+      text-shadow: 0 0 10px var(--neon-yellow-glow);
+    }
+
+    .read-more i {
+      transition: transform 0.3s ease;
+    }
+
+    .read-more:hover i {
+      transform: translateX(5px);
+    }
+
+    /* Neon Pulse Effect */
+    .neon-pulse {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .pulse-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--neon-yellow-glow) 0%, transparent 70%);
+      animation: pulse 15s infinite alternate;
+      opacity: 0.05;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.03; }
+      100% { transform: scale(1.5); opacity: 0.08; }
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 5rem;
+      border-top: 1px solid rgba(245, 247, 73, 0.1);
+      position: relative;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--neon-yellow), var(--accent-neon));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--neon-yellow);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .social-link {
+      color: var(--text-color);
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      color: var(--neon-yellow);
+      transform: translateY(-3px);
+      text-shadow: 0 0 10px var(--neon-yellow-glow);
+    }
+
+    .copyright {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: rgba(245, 247, 73, 0.2);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 100;
+      border: 1px solid var(--neon-yellow);
+    }
+
+    .scroll-indicator.visible {
+      opacity: 1;
+    }
+
+    .scroll-indicator:hover {
+      background: rgba(245, 247, 73, 0.3);
+      box-shadow: 0 0 15px var(--neon-yellow-glow);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      h1 {
+        font-size: 2.8rem;
+      }
+
+      .featured-post {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-image {
+        min-height: 250px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      header {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .featured-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Neon Pulse Background Elements -->
+  <div class="neon-pulse">
+    <div class="pulse-circle" style="width: 600px; height: 600px; top: -200px; left: -200px; animation-delay: 0s;"></div>
+    <div class="pulse-circle" style="width: 800px; height: 800px; bottom: -300px; right: -200px; animation-delay: 3s;"></div>
+    <div class="pulse-circle" style="width: 400px; height: 400px; top: 30%; right: -100px; animation-delay: 6s;"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-bg"></div>
+    <div class="header-content">
+      <h1>Minty Play Gaming</h1>
+      <p class="tagline">Illuminating the Future of Interactive Entertainment</p>
+      <nav>
+        <a href="#" class="nav-link active">Home</a>
+        <a href="#" class="nav-link">News</a>
+        <a href="#" class="nav-link">Reviews</a>
+        <a href="#" class="nav-link">Esports</a>
+        <a href="#" class="nav-link">Guides</a>
+        <a href="#" class="nav-link">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Featured Post -->
+    <article class="featured-post">
+      <div class="featured-image">
+        <img src="image/card7.webp" alt="Featured Post">
+      </div>
+      <div class="featured-content">
+        <span class="featured-category">Exclusive</span>
+        <h2 class="featured-title">Cyberpunk 2077: Phantom Liberty - The Redemption Arc</h2>
+        <p class="featured-excerpt">After years of updates and the massive Phantom Liberty expansion, we explore how CD Projekt Red has transformed Cyberpunk 2077 into the game it was always meant to be.</p>
+        <a href="blog-details.html" class="read-more">
+          Read Article <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </article>
+
+    <!-- Blog Grid -->
+    <div class="blog-grid">
+      <!-- Blog Card 1 -->
+      <article class="blog-card" style="--delay: 1">
+        <div class="card-image">
+          <img src="image/card1.jpg" alt="Blog Post">
+        </div>
+        <div class="card-content">
+          <span class="card-category">Esports</span>
+          <h3 class="card-title">The Rise of Valorant Esports in 2023</h3>
+          <p class="card-excerpt">How Riot's tactical shooter has become one of the most exciting esports to watch, with record-breaking viewership numbers.</p>
+          <div class="card-meta">
+            <span class="card-date"><i class="far fa-calendar"></i> June 15, 2023</span>
+            <span class="card-read-time"><i class="far fa-clock"></i> 6 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog Card 2 -->
+      <article class="blog-card" style="--delay: 2">
+        <div class="card-image">
+          <img src="image/card2.jpg" alt="Blog Post">
+        </div>
+        <div class="card-content">
+          <span class="card-category">Retro</span>
+          <h3 class="card-title">Why 90s Arcade Games Are Making a Comeback</h3>
+          <p class="card-excerpt">Exploring the resurgence of classic arcade gaming in modern bars, retro collections, and digital storefronts.</p>
+          <div class="card-meta">
+            <span class="card-date"><i class="far fa-calendar"></i> June 8, 2023</span>
+            <span class="card-read-time"><i class="far fa-clock"></i> 8 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog Card 3 -->
+      <article class="blog-card" style="--delay: 3">
+        <div class="card-image">
+          <img src="image/card3.jpg" alt="Blog Post">
+        </div>
+        <div class="card-content">
+          <span class="card-category">Technology</span>
+          <h3 class="card-title">PSVR 2 vs. Meta Quest 3: The VR Showdown</h3>
+          <p class="card-excerpt">We compare the two most exciting VR headsets of 2023 to help you decide which one deserves your hard-earned cash.</p>
+          <div class="card-meta">
+            <span class="card-date"><i class="far fa-calendar"></i> June 1, 2023</span>
+            <span class="card-read-time"><i class="far fa-clock"></i> 10 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog Card 4 -->
+      <article class="blog-card" style="--delay: 4">
+        <div class="card-image">
+          <img src="image/card4.avif" alt="Blog Post">
+        </div>
+        <div class="card-content">
+          <span class="card-category">Review</span>
+          <h3 class="card-title">Tears of the Kingdom: Redefining Open World Design</h3>
+          <p class="card-excerpt">How Nintendo has once again pushed the boundaries of game design with Link's latest adventure on Switch.</p>
+          <div class="card-meta">
+            <span class="card-date"><i class="far fa-calendar"></i> May 22, 2023</span>
+            <span class="card-read-time"><i class="far fa-clock"></i> 12 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog Card 5 -->
+      <article class="blog-card" style="--delay: 5">
+        <div class="card-image">
+          <img src="image/card5.jpg" alt="Blog Post">
+        </div>
+        <div class="card-content">
+          <span class="card-category">Indie</span>
+          <h3 class="card-title">10 Indie Games That Blew Us Away in 2023</h3>
+          <p class="card-excerpt">From cozy farming sims to mind-bending puzzlers, these indie gems deserve your attention this year.</p>
+          <div class="card-meta">
+            <span class="card-date"><i class="far fa-calendar"></i> May 15, 2023</span>
+            <span class="card-read-time"><i class="far fa-clock"></i> 7 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog Card 6 -->
+      <article class="blog-card" style="--delay: 6">
+        <div class="card-image">
+          <img src="image/card6.jpg" alt="Blog Post">
+        </div>
+        <div class="card-content">
+          <span class="card-category">Hardware</span>
+          <h3 class="card-title">Building the Ultimate Gaming PC for 4K/120fps</h3>
+          <p class="card-excerpt">Our comprehensive guide to assembling a future-proof gaming rig that will handle anything for years to come.</p>
+          <div class="card-meta">
+            <span class="card-date"><i class="far fa-calendar"></i> May 5, 2023</span>
+            <span class="card-read-time"><i class="far fa-clock"></i> 15 min read</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">THE OMNISCIOUS</div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Home</a>
+        <a href="#" class="footer-link">News</a>
+        <a href="#" class="footer-link">Reviews</a>
+        <a href="#" class="footer-link">Esports</a>
+        <a href="#" class="footer-link">Guides</a>
+        <a href="#" class="footer-link">About</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p class="copyright">© 2023 Neon Pulse Gaming. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <div class="scroll-indicator" id="scrollToTop">
+    <i class="fas fa-arrow-up" style="color: var(--neon-yellow);"></i>
+  </div>
+
+  <script>
+    // Scroll to top button
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+    
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Card hover effect enhancement
+    document.querySelectorAll('.blog-card, .featured-post').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // Create additional floating particles
+    function createFloatingParticles() {
+      const container = document.querySelector('.neon-pulse');
+      const colors = ['rgba(245, 247, 73, 0.3)', 'rgba(0, 247, 255, 0.3)'];
+      
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('pulse-circle');
+        
+        const size = Math.random() * 100 + 50;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 10 + 10;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        container.appendChild(particle);
+      }
+    }
+    
+    createFloatingParticles();
+  </script>
+</body>
+</html>
